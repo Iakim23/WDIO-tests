@@ -1,13 +1,18 @@
+const LoginPage = require('../pajeobjects/login.page');
+const InventoryPage = require('../pajeobjects/inventory.page');
+
 describe('SauceDemo Login Test', () => {
     it('should login with valid credentials', async () => {
-        await browser.url('https://www.saucedemo.com/');
+        await LoginPage.open();
+        await LoginPage.login('standard_user', 'secret_sauce');
+        await expect(InventoryPage.inventoryContainer).toBeDisplayed();
+    });
+});
 
-        await $('#user-name').setValue('standard_user');
-        await $('#password').setValue('secret_sauce');
-        await $('#login-button').click();
-
-        // Ждём появления заголовка, затем проверяем текст
-        await $('.title').waitForDisplayed();
-        await expect($('.title')).toHaveText('Products');
+describe('Login negative test', () => {
+    it('should not login with invalid credentials', async () => {
+        await LoginPage.open();
+        await LoginPage.login('wrong_user', 'wrong_pass');
+        await expect(LoginPage.errorMessage).toBeDisplayed();
     });
 });
