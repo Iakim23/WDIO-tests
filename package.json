@@ -1,0 +1,23 @@
+{
+  "name": "autotest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "wdio": "wdio run ./wdio.conf.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@wdio/cli": "^9.21.1"
+  },
+  "devDependencies": {
+    "@wdio/local-runner": "^9.21.0",
+    "@wdio/mocha-framework": "^9.21.0",
+    "@wdio/spec-reporter": "^9.20.0",
+    "wdio-chromedriver-service": "^8.1.1"
+  }
+}
