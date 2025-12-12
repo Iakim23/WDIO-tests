@@ -14,7 +14,7 @@ exports.config = {
         browserName: 'chrome',
         'goog:chromeOptions': {
             args: [
-                '--disable-gpu',
+                '--window-size=1920,1080',
                 '--start-maximized',
                 '--no-sandbox'
             ]
@@ -22,7 +22,6 @@ exports.config = {
     }],
 
     logLevel: 'warn',
-
     bail: 0,
 
     baseUrl: 'https://www.saucedemo.com',
@@ -30,7 +29,6 @@ exports.config = {
     waitforTimeout: 10000,
 
     connectionRetryTimeout: 120000,
-
     connectionRetryCount: 3,
 
     services: [],
@@ -49,7 +47,17 @@ exports.config = {
         await browser.setWindowSize(1920, 1080);
     },
 
-    afterTest: async function () {
-        await browser.pause(5000); // Пауза 5 сек после каждого теста
+    afterTest: async function (test, context, { error }) {
+        if (error) {
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            const filename = `ERROR_${test.title}_${timestamp}.png`;
+
+            const fs = require('fs');
+            if (!fs.existsSync('./errorShots')) {
+                fs.mkdirSync('./errorShots');
+            }
+
+            await browser.saveScreenshot(`./errorShots/${filename}`);
+        }
     }
-}
+};
